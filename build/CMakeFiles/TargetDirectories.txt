@@ -1,0 +1,3 @@
+/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles/TerminalGame.dir
+/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles/edit_cache.dir
+/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles/rebuild_cache.dir
