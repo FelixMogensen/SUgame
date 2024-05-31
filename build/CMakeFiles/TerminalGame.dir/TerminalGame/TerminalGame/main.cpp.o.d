@@ -823,5 +823,6 @@ CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__locale_dir/locale_base_api/bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/cstdarg \
-  /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/database.h \
-  /opt/homebrew/opt/sqlite/include/sqlite3.h
+  /opt/homebrew/opt/sqlite/include/sqlite3.h \
+  /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Hero.h \
+  /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/database.h
