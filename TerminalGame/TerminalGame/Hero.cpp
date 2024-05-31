@@ -72,13 +72,12 @@ void Hero::takeDamage(int damage) {
 void Hero::gainXP(int experience) {
     xp += experience;
     std::cout << name << " gained " << experience << " XP. Total XP is now " << xp << "." << std::endl;
-    if (xp >= level * 100) {
+    while (xp >= (level * 1000)) {
         levelUp();
     }
 }
 
 void Hero::saveToDatabase(sqlite3* db) {
-
         if (defeated) {
         return; // Do not save if the hero is defeated
     }
@@ -123,8 +122,8 @@ Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
 
 void Hero::levelUp() {
     level++;
-    hp += 2;
-    strength += 1;
+    hp += 5;
+    strength += 2;
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::cout << GREEN << name << " leveled up! Level is now " << level << "." << "\n" << RESET << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));

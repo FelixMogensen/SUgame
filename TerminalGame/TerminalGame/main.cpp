@@ -73,6 +73,12 @@ bool gameLoop(Hero& hero, sqlite3* db) {
                 std::cout << GREEN << "You defeated the " << monster.getName() << "!\n" << RESET;
                 std::this_thread::sleep_for(std::chrono::milliseconds(2000));
                 hero.gainXP(monster.getXP());
+
+                if (monster.getName() == "Dragon") { // If the dragon is defeated, end the game
+                    std::cout << GREEN << "Congratulations! You have defeated the Dragon and finished the game!\n" << RESET;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                    return true; // End the game
+                }
             }
         } else if (action == monsters.size() + 1) {
             return false;
@@ -166,10 +172,12 @@ int main() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         
-     bool defeated = gameLoop(hero, db);
+        bool endGame = gameLoop(hero, db);
 
-       if (!defeated) {
+        if (!endGame) {
             hero.saveToDatabase(db);
+        } else {
+            break; // End the game
         }
 
         }
