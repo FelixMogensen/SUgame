@@ -18,7 +18,7 @@ include_directories(${SQLITE3_INCLUDE_DIR})
 find_package(SQLite3 REQUIRED)
 
 # Add an executable
-add_executable(TerminalGame TerminalGame/TerminalGame/main.cpp TerminalGame/TerminalGame/database.cpp)
+add_executable(TerminalGame TerminalGame/TerminalGame/main.cpp TerminalGame/TerminalGame/database.cpp TerminalGame/TerminalGame/Monsters.cpp TerminalGame/TerminalGame/Hero.cpp)
 
 # Link SQLite library
 target_link_libraries(TerminalGame SQLite::SQLite3)

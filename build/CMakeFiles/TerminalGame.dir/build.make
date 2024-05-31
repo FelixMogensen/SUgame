@@ -97,20 +97,52 @@ CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.s: cmake_forc
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/database.cpp -o CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.s
 
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o: CMakeFiles/TerminalGame.dir/flags.make
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o: /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.cpp
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o: CMakeFiles/TerminalGame.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o -MF CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o.d -o CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o -c /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.cpp
+
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.cpp > CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.i
+
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.cpp -o CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.s
+
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o: CMakeFiles/TerminalGame.dir/flags.make
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o: /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Hero.cpp
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o: CMakeFiles/TerminalGame.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o -MF CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o.d -o CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o -c /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Hero.cpp
+
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Hero.cpp > CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.i
+
+CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Hero.cpp -o CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.s
+
 # Object files for target TerminalGame
 TerminalGame_OBJECTS = \
 "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/main.cpp.o" \
-"CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o"
+"CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o" \
+"CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o" \
+"CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o"
 
 # External object files for target TerminalGame
 TerminalGame_EXTERNAL_OBJECTS =
 
 TerminalGame: CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/main.cpp.o
 TerminalGame: CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o
+TerminalGame: CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o
+TerminalGame: CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o
 TerminalGame: CMakeFiles/TerminalGame.dir/build.make
 TerminalGame: /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/lib/libsqlite3.tbd
 TerminalGame: CMakeFiles/TerminalGame.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable TerminalGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable TerminalGame"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TerminalGame.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

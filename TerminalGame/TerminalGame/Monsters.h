@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include <string>
+#include <vector>
 
 class Monster {
 public:
@@ -13,6 +14,9 @@ public:
     int getXP() const;
 
     void takeDamage(int damage);
+    void displayInfo() const; 
+
+    static std::vector<Monster> getPredefinedMonsters();
 
 private:
     std::string name;

@@ -129,6 +129,54 @@ TerminalGame/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/build
 .PHONY : TerminalGame/fast
 
+TerminalGame/TerminalGame/Hero.o: TerminalGame/TerminalGame/Hero.cpp.o
+.PHONY : TerminalGame/TerminalGame/Hero.o
+
+# target to build an object file
+TerminalGame/TerminalGame/Hero.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.o
+.PHONY : TerminalGame/TerminalGame/Hero.cpp.o
+
+TerminalGame/TerminalGame/Hero.i: TerminalGame/TerminalGame/Hero.cpp.i
+.PHONY : TerminalGame/TerminalGame/Hero.i
+
+# target to preprocess a source file
+TerminalGame/TerminalGame/Hero.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.i
+.PHONY : TerminalGame/TerminalGame/Hero.cpp.i
+
+TerminalGame/TerminalGame/Hero.s: TerminalGame/TerminalGame/Hero.cpp.s
+.PHONY : TerminalGame/TerminalGame/Hero.s
+
+# target to generate assembly for a file
+TerminalGame/TerminalGame/Hero.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Hero.cpp.s
+.PHONY : TerminalGame/TerminalGame/Hero.cpp.s
+
+TerminalGame/TerminalGame/Monsters.o: TerminalGame/TerminalGame/Monsters.cpp.o
+.PHONY : TerminalGame/TerminalGame/Monsters.o
+
+# target to build an object file
+TerminalGame/TerminalGame/Monsters.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o
+.PHONY : TerminalGame/TerminalGame/Monsters.cpp.o
+
+TerminalGame/TerminalGame/Monsters.i: TerminalGame/TerminalGame/Monsters.cpp.i
+.PHONY : TerminalGame/TerminalGame/Monsters.i
+
+# target to preprocess a source file
+TerminalGame/TerminalGame/Monsters.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.i
+.PHONY : TerminalGame/TerminalGame/Monsters.cpp.i
+
+TerminalGame/TerminalGame/Monsters.s: TerminalGame/TerminalGame/Monsters.cpp.s
+.PHONY : TerminalGame/TerminalGame/Monsters.s
+
+# target to generate assembly for a file
+TerminalGame/TerminalGame/Monsters.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.s
+.PHONY : TerminalGame/TerminalGame/Monsters.cpp.s
+
 TerminalGame/TerminalGame/database.o: TerminalGame/TerminalGame/database.cpp.o
 .PHONY : TerminalGame/TerminalGame/database.o
 
@@ -186,6 +234,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TerminalGame"
+	@echo "... TerminalGame/TerminalGame/Hero.o"
+	@echo "... TerminalGame/TerminalGame/Hero.i"
+	@echo "... TerminalGame/TerminalGame/Hero.s"
+	@echo "... TerminalGame/TerminalGame/Monsters.o"
+	@echo "... TerminalGame/TerminalGame/Monsters.i"
+	@echo "... TerminalGame/TerminalGame/Monsters.s"
 	@echo "... TerminalGame/TerminalGame/database.o"
 	@echo "... TerminalGame/TerminalGame/database.i"
 	@echo "... TerminalGame/TerminalGame/database.s"

@@ -23,4 +23,6 @@ private:
     static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 };
 
+bool heroNameExists(sqlite3* db, const std::string& heroName);
+
 #endif // DATABASE_H

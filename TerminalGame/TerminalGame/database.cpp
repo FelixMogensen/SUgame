@@ -76,3 +76,19 @@ int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     std::cout << std::endl;
     return 0;
 }
+
+bool heroNameExists(sqlite3* db, const std::string& heroName) {
+    std::string sql = "SELECT COUNT(*) FROM Hero WHERE Name = '" + heroName + "';";
+    sqlite3_stmt* stmt;
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+        return true; // Assume it exists in case of an error
+    }
+
+    rc = sqlite3_step(stmt);
+    bool exists = (rc == SQLITE_ROW && sqlite3_column_int(stmt, 0) > 0);
+
+    sqlite3_finalize(stmt);
+    return exists;
+}

@@ -81,12 +81,12 @@ clean: CMakeFiles/TerminalGame.dir/clean
 CMakeFiles/TerminalGame.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=1,2,3 "Built target TerminalGame"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target TerminalGame"
 .PHONY : CMakeFiles/TerminalGame.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/TerminalGame.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/TerminalGame.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/build/CMakeFiles 0
 .PHONY : CMakeFiles/TerminalGame.dir/rule

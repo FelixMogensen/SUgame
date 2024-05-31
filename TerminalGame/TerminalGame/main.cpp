@@ -9,8 +9,16 @@
 #include <string>
 #include <sqlite3.h>
 #include "Hero.h"
+#include <vector>
 #include "database.h"
+#include "Monsters.h"
+#include <chrono>
+#include <thread>
 
+// Farver
+const std::string RESET = "\033[0m";
+const std::string RED = "\033[31m";
+const std::string GREEN = "\033[32m";
 
 void createDatabaseAndTable(sqlite3* db) {
     char* zErrMsg = nullptr;
@@ -29,6 +37,59 @@ void createDatabaseAndTable(sqlite3* db) {
     }
 }
 
+bool gameLoop(Hero& hero, sqlite3* db) {
+    std::vector<Monster> monsters = Monster::getPredefinedMonsters();
+
+    while (true) {
+        std::cout << "Choose an action:\n";
+        for (size_t i = 0; i < monsters.size(); ++i) {
+            std::cout << i + 1 << ". Attack " << monsters[i].getName() << "\n";
+        }
+        std::cout << monsters.size() + 1 << ". Save\n";
+        std::cout << "Enter your choice: ";
+
+        int action;
+        std::cin >> action;
+
+          if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << RED << "Invalid choice. Please enter a number." << RESET << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            continue;
+        }
+
+        if (action >= 1 && action <= monsters.size()) {
+            Monster& monster = monsters[action - 1];
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::cout << "You attacked the " << monster.getName() << "!\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            hero.takeDamage(monster.getStrength());
+            monster.takeDamage(hero.getStrength());
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+            monster.displayInfo();
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            if (monster.getHP() == 0) {
+                std::cout << GREEN << "You defeated the " << monster.getName() << "!\n" << RESET;
+                std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                hero.gainXP(monster.getXP());
+            }
+        } else if (action == monsters.size() + 1) {
+            return false;
+        } else {
+            std::cout << "Invalid choice. Please try again.\n";
+        }
+
+        if (hero.getHP() == 0) {
+            std::cout << RED << "You have been defeated!\n" << RESET;
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            hero.deleteFromDatabase(db);
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            return true;
+        }
+    }
+}
+
 int main() {
     sqlite3* db;
     int rc = sqlite3_open("game.db", &db);
@@ -41,6 +102,7 @@ int main() {
 
     createDatabaseAndTable(db);
 
+        while(true){
         std::cout << "Welcome to this awesome game." << std::endl;
         std::cout << "1. Create New Hero" << std::endl;
         std::cout << "2. Load Existing Hero" << std::endl;
@@ -50,13 +112,39 @@ int main() {
         int choice;
         std::cin >> choice;
 
+        if (std::cin.fail()) { // error handling
+            std::cin.clear(); // Clear the error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
+            std::cout << RED << "Invalid option. Please enter a number." << RESET << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            continue;
+        }
+
+        if (choice < 1 || choice > 3) { // error handling
+            std::cout << RED << "Invalid choice. Please try again." << RESET << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            continue;
+        }
+
+        Hero hero(""); // Declare the hero 
+
         if (choice == 1) {
             std::string name;
+
+            
             std::cout << "Enter hero name: ";
             std::cin >> name;
 
+             if (heroNameExists(db, name)) {
+                std::cout << RED << "A hero with this name already exists. Please choose a different name.\n" << std::endl << RESET;
+                std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                continue;
+            }
+          
+            hero = Hero(name); // Initialize the hero variable
             Hero newHero(name);
             newHero.saveToDatabase(db);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             newHero.displayInfo();
         } else if (choice == 2) {
             std::string name;
@@ -64,17 +152,33 @@ int main() {
             std::cin >> name;
 
             Hero loadedHero = Hero::loadFromDatabase(db, name);
+             
+            if (!heroNameExists(db, name)) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+                continue; 
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             loadedHero.displayInfo();
+            hero = loadedHero; 
         } else if (choice == 3) {
             return 0;
-        } else {
-            std::cout << "Invalid choice. Please try again." << std::endl;
         }
-    
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+        
+     bool defeated = gameLoop(hero, db);
+
+       if (!defeated) {
+            hero.saveToDatabase(db);
+        }
+
+        }
 
     sqlite3_close(db);
     return 0;
 }
+
+
 
 
 
