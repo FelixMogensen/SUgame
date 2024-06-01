@@ -38,7 +38,7 @@ void createDatabaseAndTable(sqlite3* db) {
 }
 
 bool gameLoop(Hero& hero, sqlite3* db) {
-    std::vector<Monster> monsters = Monster::getPredefinedMonsters();
+    std::vector<Monster> monsters = Monster::getMonsters();
 
     while (true) {
         std::cout << "Choose an action:\n";
@@ -100,7 +100,7 @@ int main() {
     sqlite3* db;
     int rc = sqlite3_open("game.db", &db);
     if (rc) {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
+        std::cerr << "Cannot open database: " << sqlite3_errmsg(db) << std::endl;
         return 1;
     } else {
         std::cout << "Opened database successfully." << std::endl;
@@ -119,20 +119,20 @@ int main() {
         std::cin >> choice;
 
         if (std::cin.fail()) { // error handling
-            std::cin.clear(); // Clear the error state
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
             std::cout << RED << "Invalid option. Please enter a number." << RESET << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             continue;
         }
 
         if (choice < 1 || choice > 3) { // error handling
-            std::cout << RED << "Invalid choice. Please try again." << RESET << std::endl;
+            std::cout << RED << "Invalid option. Please try again." << RESET << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             continue;
         }
 
-        Hero hero(""); // Declare the hero 
+        Hero hero(""); 
 
         if (choice == 1) {
             std::string name;
@@ -147,7 +147,7 @@ int main() {
                 continue;
             }
           
-            hero = Hero(name); // Initialize the hero variable
+            hero = Hero(name); 
             Hero newHero(name);
             newHero.saveToDatabase(db);
             std::this_thread::sleep_for(std::chrono::milliseconds(1500));
@@ -175,9 +175,9 @@ int main() {
         bool endGame = gameLoop(hero, db);
 
         if (!endGame) {
-            hero.saveToDatabase(db);
+            hero.saveToDatabase(db); // save the game
         } else {
-            break; // End the game
+            break; // end the game
         }
 
         }

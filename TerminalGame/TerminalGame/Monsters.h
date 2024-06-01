@@ -16,7 +16,7 @@ public:
     void takeDamage(int damage);
     void displayInfo() const; 
 
-    static std::vector<Monster> getPredefinedMonsters();
+    static std::vector<Monster> getMonsters();
 
 private:
     std::string name;
@@ -25,4 +25,4 @@ private:
     int xp;
 };
 
-#endif // MONSTER_H
+#endif 

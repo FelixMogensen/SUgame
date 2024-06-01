@@ -25,4 +25,4 @@ private:
 
 bool heroNameExists(sqlite3* db, const std::string& heroName);
 
-#endif // DATABASE_H
+#endif 

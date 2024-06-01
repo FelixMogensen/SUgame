@@ -10,7 +10,7 @@ const std::string GREEN = "\033[32m";
 Hero::Hero(const std::string& n, int x, int l, int h, int s)
     : name(n), xp(x), level(l), hp(h), strength(s) {
     if (name.empty()) {
-        name = "Unnamed Hero";
+        name = "Standard Hero";
     }
 }
 
@@ -79,7 +79,7 @@ void Hero::gainXP(int experience) {
 
 void Hero::saveToDatabase(sqlite3* db) {
         if (defeated) {
-        return; // Do not save if the hero is defeated
+        return; 
     }
 
     char* zErrMsg = nullptr;
@@ -122,7 +122,7 @@ Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
 
 void Hero::levelUp() {
     level++;
-    hp += 5;
+    hp += 7;
     strength += 2;
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::cout << GREEN << name << " leveled up! Level is now " << level << "." << "\n" << RESET << std::endl;

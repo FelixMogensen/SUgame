@@ -27,11 +27,12 @@ void Monster::takeDamage(int damage) {
     if (hp < 0) hp = 0;
 }
 
-std::vector<Monster> Monster::getPredefinedMonsters() {
+std::vector<Monster> Monster::getMonsters() {
     return {
-        Monster("Goblin", 4, 1, 300),
-        Monster("Orc", 8, 3, 400),
-        Monster("Monkey", 15, 4, 600),
+        Monster("Goblin", 4, 1, 350),
+        Monster("Orc", 8, 3, 450),
+        Monster("Monkey", 15, 4, 650),
+        Monster("Spider", 25, 4, 900),
         Monster("Dragon", 100, 10, 3000)
     };
 }
