@@ -3,8 +3,7 @@
 #include "Monsters.h"
 #include <vector>
 
-Monster::Monster(std::string name, int hp, int strength, int xp)
-    : name(name), hp(hp), strength(strength), xp(xp) {}
+Monster::Monster(std::string name, int hp, int strength, int xp) : name(name), hp(hp), strength(strength), xp(xp) {}
 
 std::string Monster::getName() const {
     return name;
@@ -39,5 +38,4 @@ std::vector<Monster> Monster::getMonsters() {
 
 void Monster::displayInfo() const {
     std::cout << "Monster " << name << " with remaning HP: " << hp << "\n";
-    
 }

@@ -1,10 +1,3 @@
-//
-//  database.cpp
-//  TerminalGame
-//
-//  Created by Felix Mogensen on 19/05/2024.
-//
-
 #include "database.h"
 #include <iostream>
 
@@ -77,7 +70,7 @@ int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     return 0;
 }
 
-bool heroNameExists(sqlite3* db, const std::string& heroName) {
+bool Database::heroNameExists(sqlite3* db, const std::string& heroName) {
     std::string sql = "SELECT COUNT(*) FROM Hero WHERE Name = '" + heroName + "';";
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);

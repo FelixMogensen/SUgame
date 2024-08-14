@@ -7,10 +7,9 @@ const std::string RESET = "\033[0m";
 const std::string RED = "\033[31m";
 const std::string GREEN = "\033[32m";
 
-Hero::Hero(const std::string& n, int x, int l, int h, int s)
-    : name(n), xp(x), level(l), hp(h), strength(s) {
+Hero::Hero(const std::string& n, int x, int l, int h, int s) : name(n), xp(x), level(l), hp(h), strength(s) {
     if (name.empty()) {
-        name = "Standard Hero";
+        name = "Default Hero";
     }
 }
 

@@ -1,6 +1,4 @@
-#ifndef HERO_H
-#define HERO_H
-
+#pragma once
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
@@ -13,9 +11,6 @@ private:
     int hp;
     int strength;
     bool defeated;
-
-    void levelUp();
-
 public:
     Hero(const std::string& n, int x = 0, int l = 1, int h = 10, int s = 2);
 
@@ -35,11 +30,10 @@ public:
     void displayInfo() const;
     void takeDamage(int damage);
     void gainXP(int experience);
+    void levelUp();
     void saveToDatabase(sqlite3* db);
 
     void deleteFromDatabase(sqlite3* db);
 
     static Hero loadFromDatabase(sqlite3* db, const std::string& heroName);
 };
-
-#endif // HERO_H

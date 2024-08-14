@@ -1,10 +1,3 @@
-//
-//  main.cpp
-//  TerminalGame
-//
-//  Created by Felix Mogensen on 19/05/2024.
-//
-
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
@@ -107,6 +100,7 @@ int main() {
     }
 
     createDatabaseAndTable(db);
+    Database db1("game.db");
 
         while(true){
         std::cout << "Welcome to this awesome game." << std::endl;
@@ -141,7 +135,7 @@ int main() {
             std::cout << "Enter hero name: ";
             std::cin >> name;
 
-             if (heroNameExists(db, name)) {
+             if (db1.heroNameExists(db, name)) {
                 std::cout << RED << "A hero with this name already exists. Please choose a different name.\n" << std::endl << RESET;
                 std::this_thread::sleep_for(std::chrono::milliseconds(2000));
                 continue;
@@ -159,7 +153,7 @@ int main() {
 
             Hero loadedHero = Hero::loadFromDatabase(db, name);
              
-            if (!heroNameExists(db, name)) {
+            if (!db1.heroNameExists(db, name)) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 continue; 
             }
