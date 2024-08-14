@@ -48,5 +48,6 @@
         "optional": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }
