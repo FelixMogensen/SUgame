@@ -13,23 +13,6 @@ const std::string RESET = "\033[0m";
 const std::string RED = "\033[31m";
 const std::string GREEN = "\033[32m";
 
-void createDatabaseAndTable(sqlite3* db) {
-    char* zErrMsg = nullptr;
-    const char* sql = "CREATE TABLE IF NOT EXISTS Hero ("
-                      "Name TEXT PRIMARY KEY NOT NULL,"
-                      "XP INT NOT NULL,"
-                      "Level INT NOT NULL,"
-                      "HP INT NOT NULL,"
-                      "Strength INT NOT NULL);";
-    int rc = sqlite3_exec(db, sql, nullptr, 0, &zErrMsg);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-    } else {
-        std::cout << "Table created successfully." << std::endl;
-    }
-}
-
 bool gameLoop(Hero& hero, sqlite3* db) {
     std::vector<Monster> monsters = Monster::getMonsters();
 
@@ -99,8 +82,8 @@ int main() {
         std::cout << "Opened database successfully." << std::endl;
     }
 
-    createDatabaseAndTable(db);
     Database db1("game.db");
+    db1.createDatabaseAndTable(db);
 
         while(true){
         std::cout << "Welcome to this awesome game." << std::endl;

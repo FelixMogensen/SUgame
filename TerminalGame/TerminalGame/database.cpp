@@ -11,51 +11,21 @@ Database::Database(const char* dbName) {
     }
 }
 
-Database::~Database() {
-    if (db) {
-        sqlite3_close(db);
-    }
-}
-
-void Database::createTable() {
-    if (!db) return;
-
-    const char* sql = "CREATE TABLE PLAYER("
-                      "ID INT PRIMARY KEY NOT NULL,"
-                      "NAME TEXT NOT NULL,"
-                      "SCORE INT NOT NULL);";
+void Database::createDatabaseAndTable(sqlite3* db) {
     char* zErrMsg = nullptr;
-    int rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
+    const char* sql = "CREATE TABLE IF NOT EXISTS Hero ("
+                      "Name TEXT PRIMARY KEY NOT NULL,"
+                      "XP INT NOT NULL,"
+                      "Level INT NOT NULL,"
+                      "HP INT NOT NULL,"
+                      "Strength INT NOT NULL);";
+    int rc = sqlite3_exec(db, sql, nullptr, 0, &zErrMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
     } else {
-        std::cout << "Table created successfully" << std::endl;
+        std::cout << "Table created successfully." << std::endl;
     }
-}
-
-void Database::insertPlayer(int id, const std::string& name, int score) {
-    if (!db) return;
-
-    std::string sql = "INSERT INTO PLAYER (ID, NAME, SCORE) VALUES (" +
-                      std::to_string(id) + ", '" + name + "', " +
-                      std::to_string(score) + ");";
-    char* zErrMsg = nullptr;
-    int rc = sqlite3_exec(db, sql.c_str(), callback, 0, &zErrMsg);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-    } else {
-        std::cout << "Records created successfully" << std::endl;
-    }
-}
-
-int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
-    for (int i = 0; i < argc; i++) {
-        std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
-    }
-    std::cout << std::endl;
-    return 0;
 }
 
 bool Database::heroNameExists(sqlite3* db, const std::string& heroName) {

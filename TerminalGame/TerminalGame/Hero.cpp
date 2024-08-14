@@ -33,26 +33,6 @@ int Hero::getStrength() const {
     return strength;
 }
 
-void Hero::setName(const std::string& n) {
-    name = n;
-}
-
-void Hero::setXP(int x) {
-    xp = x;
-}
-
-void Hero::setLevel(int l) {
-    level = l;
-}
-
-void Hero::setHP(int h) {
-    hp = h;
-}
-
-void Hero::setStrength(int s) {
-    strength = s;
-}
-
 void Hero::displayInfo() const {
     std::cout << "Name: " << name << "\n"
               << "XP: " << xp << "\n"
@@ -76,6 +56,15 @@ void Hero::gainXP(int experience) {
     }
 }
 
+void Hero::levelUp() {
+    level++;
+    hp += 7;
+    strength += 2;
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    std::cout << GREEN << name << " leveled up! Level is now " << level << "." << "\n" << RESET << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+}
+
 void Hero::saveToDatabase(sqlite3* db) {
         if (defeated) {
         return; 
@@ -92,6 +81,19 @@ void Hero::saveToDatabase(sqlite3* db) {
     } else {
         std::cout << GREEN << "Hero saved to database successfully." << "\n" << std::endl << RESET;
     }
+}
+
+void Hero::deleteFromDatabase(sqlite3* db) {
+    char* zErrMsg = nullptr;
+    std::string sql = "DELETE FROM Hero WHERE Name = '" + name + "';";
+    int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    } else {
+        std::cout << "Hero deleted from database successfully.\n" << std::endl;
+    }
+    defeated = true; 
 }
 
 Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
@@ -117,26 +119,4 @@ Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
 
     sqlite3_finalize(stmt);
     return hero;
-}
-
-void Hero::levelUp() {
-    level++;
-    hp += 7;
-    strength += 2;
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    std::cout << GREEN << name << " leveled up! Level is now " << level << "." << "\n" << RESET << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-}
-
-void Hero::deleteFromDatabase(sqlite3* db) {
-    char* zErrMsg = nullptr;
-    std::string sql = "DELETE FROM Hero WHERE Name = '" + name + "';";
-    int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-    } else {
-        std::cout << "Hero deleted from database successfully.\n" << std::endl;
-    }
-    defeated = true; 
 }

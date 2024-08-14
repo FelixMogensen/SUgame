@@ -19,21 +19,13 @@ public:
     int getLevel() const;
     int getHP() const;
     int getStrength() const;
-    bool isDefeated() const;
-
-    void setName(const std::string& n);
-    void setXP(int x);
-    void setLevel(int l);
-    void setHP(int h);
-    void setStrength(int s);
 
     void displayInfo() const;
     void takeDamage(int damage);
     void gainXP(int experience);
     void levelUp();
+
     void saveToDatabase(sqlite3* db);
-
     void deleteFromDatabase(sqlite3* db);
-
     static Hero loadFromDatabase(sqlite3* db, const std::string& heroName);
 };

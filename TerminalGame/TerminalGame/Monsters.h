@@ -5,14 +5,13 @@
 class Monster {
 private:
     std::string name;
-    int hp;
-    int strength;
     int xp;
+    int strength;
+    int hp;
 public:
     Monster(std::string name, int hp, int strength, int xp);
 
     std::string getName() const;
-
     int getHP() const;
     int getStrength() const;
     int getXP() const;
