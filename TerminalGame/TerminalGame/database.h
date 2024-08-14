@@ -11,7 +11,6 @@ public:
     ~Database();
     void createTable();
     void insertPlayer(int id, const std::string& name, int score);
-    void selectAllPlayers();
 
     bool heroNameExists(sqlite3* db, const std::string& heroName);
 };
