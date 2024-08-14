@@ -50,18 +50,6 @@ void Database::insertPlayer(int id, const std::string& name, int score) {
     }
 }
 
-void Database::selectAllPlayers() {
-    if (!db) return;
-
-    const char* sql = "SELECT * FROM PLAYER;";
-    char* zErrMsg = nullptr;
-    int rc = sqlite3_exec(db, sql, callback, 0, &zErrMsg);
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << zErrMsg << std::endl;
-        sqlite3_free(zErrMsg);
-    }
-}
-
 int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     for (int i = 0; i < argc; i++) {
         std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
