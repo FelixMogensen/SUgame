@@ -59,7 +59,6 @@ void Monster::saveToDatabase(sqlite3* db, const std::string& heroName) {
     }
 }
 
-
 std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string& heroName) {
     std::vector<Monster> monsters;
     std::string sql = "SELECT Name, HP FROM Monster WHERE HeroName = '" + heroName + "';";

@@ -36,17 +36,15 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db) {
 
         if (action >= 1 && action <= monsters.size()) {
             Monster& monster = monsters[action - 1];
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             std::cout << "You attacked the " << monster.getName() << "!\n";
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             hero.takeDamage(monster.getStrength());
             monster.takeDamage(hero.getStrength());
-            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             monster.displayInfo();
-            std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             if (monster.getHP() == 0) {
                 std::cout << GREEN << "You defeated the " << monster.getName() << "!\n" << RESET;
-                std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 hero.gainXP(monster.getXP());
 
                 if (monster.getName() == "Dragon") { // If the dragon is defeated, end the game
@@ -58,9 +56,6 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db) {
                 monster.saveToDatabase(db, hero.getName()); // save 
             }
         } else if (action == monsters.size() + 1) {
-            for (Monster& monster : monsters) {
-                 monster.saveToDatabase(db, hero.getName()); // save monsters
-                 }
             return false;
         } else {
             std::cout << "Invalid choice. Please try again.\n";
@@ -130,15 +125,15 @@ int main() {
             }
           
             hero = Hero(name);
-            Hero newHero(name);
-            newHero.saveToDatabase(db);
+            hero.saveToDatabase(db);
             monsters = Monster::getMonsters(db); // create new standard monsters 
             for (Monster& monster : monsters) {
-                monster.saveToDatabase(db, name); //save them to the database
+                monster.saveToDatabase(db, hero.getName()); //save them to the database
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-            newHero.displayInfo();
+            hero.displayInfo();
+
         } else if (choice == 2) { // existing game
             std::string name;
             std::cout << "Enter hero name to load: ";
@@ -155,6 +150,7 @@ int main() {
             std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             loadedHero.displayInfo();
             hero = loadedHero; 
+
         } else if (choice == 3) {
             return 0;
         }
@@ -163,7 +159,10 @@ int main() {
         bool endGame = gameLoop(hero, monsters, db);
 
         if (!endGame) {
-            hero.saveToDatabase(db); // save the game
+            hero.saveToDatabase(db); // save the hero
+                 for (Monster& monster : monsters) {
+                 monster.saveToDatabase(db, hero.getName()); // save monsters
+                 }
         } else {
             break; // end the game
         }
