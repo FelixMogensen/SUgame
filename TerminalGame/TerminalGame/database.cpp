@@ -13,20 +13,44 @@ Database::Database(const char* dbName) {
 
 void Database::createDatabaseAndTable(sqlite3* db) {
     char* zErrMsg = nullptr;
+
+    // Drop the Monster table if it exists to ensure the correct schema
+    const char* dropMonsterTableSQL = "DROP TABLE IF EXISTS Monster;";
+    int rc = sqlite3_exec(db, dropMonsterTableSQL, nullptr, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error (dropping Monster table): " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    }
+
     const char* sql = "CREATE TABLE IF NOT EXISTS Hero ("
                       "Name TEXT PRIMARY KEY NOT NULL,"
                       "XP INT NOT NULL,"
                       "Level INT NOT NULL,"
                       "HP INT NOT NULL,"
                       "Strength INT NOT NULL);";
-    int rc = sqlite3_exec(db, sql, nullptr, 0, &zErrMsg);
+    rc = sqlite3_exec(db, sql, nullptr, 0, &zErrMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
     } else {
-        std::cout << "Table created successfully." << std::endl;
+        std::cout << "Hero table created successfully." << std::endl;
+    }
+
+    // Create the Monster table with the new schema
+    const char* monsterTableSQL = "CREATE TABLE IF NOT EXISTS Monster ("
+                                  "Name TEXT PRIMARY KEY NOT NULL,"
+                                  "HP INT NOT NULL,"
+                                  "HeroName TEXT NOT NULL);";
+
+    rc = sqlite3_exec(db, monsterTableSQL, nullptr, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    } else {
+        std::cout << "Monster table created successfully." << std::endl;
     }
 }
+
 
 bool Database::heroNameExists(sqlite3* db, const std::string& heroName) {
     std::string sql = "SELECT COUNT(*) FROM Hero WHERE Name = '" + heroName + "';";

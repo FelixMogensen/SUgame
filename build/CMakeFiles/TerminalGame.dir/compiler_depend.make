@@ -1752,7 +1752,8 @@ CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o: /Users/fel
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include/stdint.h \
-  /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.h
+  /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/Monsters.h \
+  /opt/homebrew/opt/sqlite/include/sqlite3.h
 
 CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o: /Users/felixmogensen/Documents/SDU/2sem/Softwareudvikling/Porteføljeeksamen/SUproject/TerminalGame/TerminalGame/database.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/Availability.h \
