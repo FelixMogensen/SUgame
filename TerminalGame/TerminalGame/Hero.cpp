@@ -84,6 +84,9 @@ void Hero::saveToDatabase(sqlite3* db) {
     std::string sql = "INSERT OR REPLACE INTO Hero (Name, XP, Level, HP, Strength, Gold) VALUES ('" +
                       name + "', " + std::to_string(xp) + ", " + std::to_string(level) + ", " +
                       std::to_string(hp) + ", " + std::to_string(strength) + ", " + std::to_string(gold) + ");";
+
+     std::cout << "Executing SQL: " << sql << std::endl;  // Debugging statement
+
     int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
@@ -95,6 +98,7 @@ void Hero::saveToDatabase(sqlite3* db) {
 
 Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
     std::string sql = "SELECT * FROM Hero WHERE Name = '" + heroName + "';";
+    std::cout << "Executing SQL: " << sql << std::endl;  // Debugging statement
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK) {
@@ -118,6 +122,7 @@ Hero Hero::loadFromDatabase(sqlite3* db, const std::string& heroName) {
     sqlite3_finalize(stmt);
     return hero;
 }
+
 
 void Hero::deleteFromDatabase(sqlite3* db) {
     char* zErrMsg = nullptr;

@@ -23,6 +23,7 @@ void Database::createDatabaseAndTable(sqlite3* db) {
     }
 */
     // create hero table
+
     const char* sql = "CREATE TABLE IF NOT EXISTS Hero ("
                   "Name TEXT PRIMARY KEY NOT NULL,"
                   "XP INT NOT NULL,"
