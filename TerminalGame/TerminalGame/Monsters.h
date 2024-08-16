@@ -26,7 +26,7 @@ public:
 
     static std::vector<Monster> getMonsters(sqlite3* db);
 
-    void saveToDatabase(sqlite3* db, const std::string& heroName);
-    static std::vector<Monster> loadAllFromDatabase(sqlite3* db, const std::string& heroName);
+    void saveToDatabase(sqlite3* db, const std::string& heroName, const std::string& dungeonName);
+    static std::vector<Monster> loadAllFromDatabase(sqlite3* db, const std::string& heroName, const std::string& dungeonName);
     static void deleteMonstersForHero(sqlite3* db, const std::string& heroName);
 };

@@ -5,6 +5,7 @@
 #include <vector>
 #include "database.h"
 #include "Monsters.h"
+#include "dungeon.h"
 #include <chrono>
 #include <thread>
 
@@ -13,12 +14,12 @@ const std::string RESET = "\033[0m";
 const std::string RED = "\033[31m";
 const std::string GREEN = "\033[32m";
 
-bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db) {
+bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon chosenDungeon) {
 
     while (true) {
         std::cout << "Choose an action:\n";
         for (size_t i = 0; i < monsters.size(); ++i) {
-            std::cout << i + 1 << ". Attack " << monsters[i].getName() << "\n";
+            std::cout << i + 1 << ". Attack " << monsters[i].getName() << "   (hp: " << monsters[i].getHP() << " -- strength: " << monsters[i].getStrength() << ")\n";
         }
         std::cout << monsters.size() + 1 << ". Save\n";
         std::cout << "Enter your choice: ";
@@ -47,16 +48,27 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 hero.gainXP(monster.getXP());
 
-                if (monster.getName() == "Dragon") { // If the dragon is defeated, end the game
+                chosenDungeon.markMonsterDefeated(monster.getName());
+
+                  if (chosenDungeon.checkIfCompleted() and !chosenDungeon.getCompleted()) {
+                std::cout << GREEN << "Congratulations! You have completed " << chosenDungeon.getName() << "!\n" << RESET;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+                hero.addGold(chosenDungeon.getGold());
+                std::cout << GREEN << "You earned " << chosenDungeon.getGold() << " gold!\n" << RESET;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+                chosenDungeon.markAsCompleted();
+                }
+
+                if (monster.getName() == "Dragon") { // if the dragon is defeated, end the game
                     std::cout << GREEN << "Congratulations! You have defeated the Dragon and finished the game!\n" << RESET;
                     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-                    return true; // End the game
+                    return true; // end the game
                 }
                 monster.respawn(); // reset hp when defeated
-                monster.saveToDatabase(db, hero.getName()); // save 
+                monster.saveToDatabase(db, hero.getName(), chosenDungeon.getName()); // save 
             }
         } else if (action == monsters.size() + 1) {
-            return false;
+            return false; // save
         } else {
             std::cout << "Invalid choice. Please try again.\n";
         }
@@ -66,6 +78,7 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db) {
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             hero.deleteFromDatabase(db); // erase hero
             Monster::deleteMonstersForHero(db, hero.getName()); // erase monsters
+            Dungeon::deleteDungeonsForHero(db, hero.getName());
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             return true;
         }
@@ -111,6 +124,7 @@ int main() {
 
         Hero hero(""); // instantiation
         std::vector<Monster> monsters; //instantiation
+        Dungeon chosenDungeon;
 
         if (choice == 1) { // new game
             std::string name;
@@ -123,45 +137,66 @@ int main() {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 continue;
             }
+
+            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db);
+            std::cout << "Choose a dungeon:\n";
+            for (size_t i = 0; i < dungeons.size(); ++i) {
+                std::cout << i + 1 << ". " << dungeons[i].getName() << " (Gold: " << dungeons[i].getGold() << ")\n";
+            }
+            int dungeonChoice;
+            std::cin >> dungeonChoice;
+
+            chosenDungeon = dungeons[dungeonChoice - 1];
+            monsters = chosenDungeon.getMonsters();
           
             hero = Hero(name);
             hero.saveToDatabase(db);
-            monsters = Monster::getMonsters(db); // create new standard monsters 
-            for (Monster& monster : monsters) {
-                monster.saveToDatabase(db, hero.getName()); //save them to the database
+
+            for (Dungeon& dungeon : dungeons) {
+            dungeon.saveToDatabase(db, hero.getName()); // save monsters 
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             hero.displayInfo();
 
-        } else if (choice == 2) { // existing game
+        } else if (choice == 2) { // load existing game
             std::string name;
             std::cout << "Enter hero name to load: ";
             std::cin >> name;
 
             Hero loadedHero = Hero::loadFromDatabase(db, name);
-            monsters = Monster::loadAllFromDatabase(db, name); // load monsters from existing game
-             
-            if (!db1.heroNameExists(db, name)) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+            hero = loadedHero; 
+
+             if (!db1.heroNameExists(db, name)) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 continue; 
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
-            loadedHero.displayInfo();
-            hero = loadedHero; 
+            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db);
+            std::cout << "Choose a dungeon:\n";
+            for (size_t i = 0; i < dungeons.size(); ++i) {
+                std::cout << i + 1 << ". " << dungeons[i].getName() << " (Gold: " << dungeons[i].getGold() << ")\n";
+            }
+            int dungeonChoice;
+            std::cin >> dungeonChoice;
 
-        } else if (choice == 3) {
+            std::cout << "Loading dungeon with hero: " << hero.getName() << std::endl;
+
+            chosenDungeon = Dungeon::loadDungeon(db, dungeons[dungeonChoice - 1].getName(), hero.getName());
+            monsters = chosenDungeon.getMonsters();
+
+            loadedHero.displayInfo();
+
+        } else if (choice == 3) { // shut down
             return 0;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
-        bool endGame = gameLoop(hero, monsters, db);
+        bool endGame = gameLoop(hero, monsters, db, chosenDungeon);
 
         if (!endGame) {
             hero.saveToDatabase(db); // save the hero
                  for (Monster& monster : monsters) {
-                 monster.saveToDatabase(db, hero.getName()); // save monsters
+                 monster.saveToDatabase(db, hero.getName(), chosenDungeon.getName()); // save monsters
                  }
         } else {
             break; // end the game

@@ -45,9 +45,11 @@ void Monster::displayInfo() const {
     std::cout << "Monster " << name << " with remaning HP: " << hp << "\n";
 }
 
-void Monster::saveToDatabase(sqlite3* db, const std::string& heroName) {
-    std::string sql = "INSERT OR REPLACE INTO Monster (Name, HP, HeroName) VALUES ('" +
-                      name + "', " + std::to_string(hp) + ", '" + heroName + "');";
+void Monster::saveToDatabase(sqlite3* db, const std::string& heroName, const std::string& dungeonName) {
+    std::string sql = "INSERT OR REPLACE INTO Monster (Name, HP, HeroName, DungeonName) VALUES ('" +
+                      name + "', " + std::to_string(hp) + ", '" + heroName + "', '" + dungeonName + "');";
+
+                       std::cout << "Executing SQL: " << sql << std::endl; // Debug statement
 
     char* zErrMsg = nullptr;
     int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
@@ -55,15 +57,18 @@ void Monster::saveToDatabase(sqlite3* db, const std::string& heroName) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
     } else {
-        std::cout << "Monster " << name << " saved to database with HeroName " << heroName << "." << std::endl;
+        std::cout << "Monster " << name << " saved to database with HeroName " << heroName << " and DungeonName " << dungeonName << "." << std::endl;
     }
 }
 
-std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string& heroName) {
+std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string& heroName, const std::string& dungeonName) {
     std::vector<Monster> monsters;
-    std::string sql = "SELECT Name, HP FROM Monster WHERE HeroName = '" + heroName + "';";
-    sqlite3_stmt* stmt;
+    std::string sql = "SELECT Name, HP FROM Monster WHERE HeroName = '" + heroName + "' AND DungeonName = '" + dungeonName + "';";
 
+    // Debugging output
+    std::cout << "Executing SQL: " << sql << std::endl;
+
+    sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
@@ -73,6 +78,9 @@ std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string
     while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
         std::string name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
         int hp = sqlite3_column_int(stmt, 1);
+
+        // Debug output for each monster loaded
+        std::cout << "Loaded Monster: " << name << " with HP: " << hp << std::endl;
 
         // Set default attributes for the monsters as before
         int strength = 0;
@@ -95,6 +103,10 @@ std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string
             strength = 4;
             xp = 900;
             originalhp = 25;
+        } else if (name == "Voodoo Man") {
+            strength = 8;
+            xp = 2000;
+            originalhp = 50;
         } else if (name == "Dragon") {
             strength = 10;
             xp = 3000;
@@ -114,6 +126,7 @@ std::vector<Monster> Monster::loadAllFromDatabase(sqlite3* db, const std::string
     sqlite3_finalize(stmt);
     return monsters; // return the loaded monsters
 }
+
 
 
 void Monster::deleteMonstersForHero(sqlite3* db, const std::string& heroName) {

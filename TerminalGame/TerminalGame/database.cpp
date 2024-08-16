@@ -22,12 +22,14 @@ void Database::createDatabaseAndTable(sqlite3* db) {
         sqlite3_free(zErrMsg);
     }
 */
+    // create hero table
     const char* sql = "CREATE TABLE IF NOT EXISTS Hero ("
-                      "Name TEXT PRIMARY KEY NOT NULL,"
-                      "XP INT NOT NULL,"
-                      "Level INT NOT NULL,"
-                      "HP INT NOT NULL,"
-                      "Strength INT NOT NULL);";
+                  "Name TEXT PRIMARY KEY NOT NULL,"
+                  "XP INT NOT NULL,"
+                  "Level INT NOT NULL,"
+                  "HP INT NOT NULL,"
+                  "Strength INT NOT NULL,"
+                  "Gold INT NOT NULL);";  
     int rc = sqlite3_exec(db, sql, nullptr, 0, &zErrMsg);
     if (rc != SQLITE_OK) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
@@ -36,11 +38,12 @@ void Database::createDatabaseAndTable(sqlite3* db) {
         std::cout << "Hero table created successfully." << std::endl;
     }
 
-    // Create the Monster table with the new schema
+    // create monster table
     const char* monsterTableSQL = "CREATE TABLE IF NOT EXISTS Monster ("
-                                  "Name TEXT PRIMARY KEY NOT NULL,"
-                                  "HP INT NOT NULL,"
-                                  "HeroName TEXT NOT NULL);";
+                              "Name TEXT PRIMARY KEY NOT NULL,"
+                              "HP INT NOT NULL,"
+                              "HeroName TEXT NOT NULL,"
+                              "DungeonName TEXT NOT NULL);";
 
     rc = sqlite3_exec(db, monsterTableSQL, nullptr, 0, &zErrMsg);
     if (rc != SQLITE_OK) {
@@ -49,8 +52,19 @@ void Database::createDatabaseAndTable(sqlite3* db) {
     } else {
         std::cout << "Monster table created successfully." << std::endl;
     }
-}
 
+    // create dungeon table
+    const char* dungeonTableSQL = "CREATE TABLE IF NOT EXISTS Dungeon ("
+                                  "Name TEXT PRIMARY KEY NOT NULL,"
+                                  "Gold INT NOT NULL);";
+    rc = sqlite3_exec(db, dungeonTableSQL, nullptr, 0, &zErrMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error (Dungeon table): " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+    } else {
+        std::cout << "Dungeon table created successfully." << std::endl;
+    }
+}
 
 bool Database::heroNameExists(sqlite3* db, const std::string& heroName) {
     std::string sql = "SELECT COUNT(*) FROM Hero WHERE Name = '" + heroName + "';";

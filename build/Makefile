@@ -201,6 +201,30 @@ TerminalGame/TerminalGame/database.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.s
 .PHONY : TerminalGame/TerminalGame/database.cpp.s
 
+TerminalGame/TerminalGame/dungeon.o: TerminalGame/TerminalGame/dungeon.cpp.o
+.PHONY : TerminalGame/TerminalGame/dungeon.o
+
+# target to build an object file
+TerminalGame/TerminalGame/dungeon.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/dungeon.cpp.o
+.PHONY : TerminalGame/TerminalGame/dungeon.cpp.o
+
+TerminalGame/TerminalGame/dungeon.i: TerminalGame/TerminalGame/dungeon.cpp.i
+.PHONY : TerminalGame/TerminalGame/dungeon.i
+
+# target to preprocess a source file
+TerminalGame/TerminalGame/dungeon.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/dungeon.cpp.i
+.PHONY : TerminalGame/TerminalGame/dungeon.cpp.i
+
+TerminalGame/TerminalGame/dungeon.s: TerminalGame/TerminalGame/dungeon.cpp.s
+.PHONY : TerminalGame/TerminalGame/dungeon.s
+
+# target to generate assembly for a file
+TerminalGame/TerminalGame/dungeon.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TerminalGame.dir/build.make CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/dungeon.cpp.s
+.PHONY : TerminalGame/TerminalGame/dungeon.cpp.s
+
 TerminalGame/TerminalGame/main.o: TerminalGame/TerminalGame/main.cpp.o
 .PHONY : TerminalGame/TerminalGame/main.o
 
@@ -243,6 +267,9 @@ help:
 	@echo "... TerminalGame/TerminalGame/database.o"
 	@echo "... TerminalGame/TerminalGame/database.i"
 	@echo "... TerminalGame/TerminalGame/database.s"
+	@echo "... TerminalGame/TerminalGame/dungeon.o"
+	@echo "... TerminalGame/TerminalGame/dungeon.i"
+	@echo "... TerminalGame/TerminalGame/dungeon.s"
 	@echo "... TerminalGame/TerminalGame/main.o"
 	@echo "... TerminalGame/TerminalGame/main.i"
 	@echo "... TerminalGame/TerminalGame/main.s"

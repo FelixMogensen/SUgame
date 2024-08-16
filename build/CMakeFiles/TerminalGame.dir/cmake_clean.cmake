@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/Monsters.cpp.o.d"
   "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o"
   "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/database.cpp.o.d"
+  "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/dungeon.cpp.o"
+  "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/dungeon.cpp.o.d"
   "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/main.cpp.o"
   "CMakeFiles/TerminalGame.dir/TerminalGame/TerminalGame/main.cpp.o.d"
   "TerminalGame"
