@@ -14,7 +14,7 @@ const std::string RESET = "\033[0m";
 const std::string RED = "\033[31m";
 const std::string GREEN = "\033[32m";
 
-bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon chosenDungeon) {
+bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db1, Dungeon chosenDungeon) {
 
     while (true) {
         std::cout << "Choose an action:\n";
@@ -57,6 +57,7 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon c
                 std::cout << GREEN << "You earned " << chosenDungeon.getGold() << " gold!\n" << RESET;
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 chosenDungeon.markAsCompleted();
+                chosenDungeon.saveToDatabase(db1, hero.getName()); 
                 }
 
                 if (monster.getName() == "Dragon") { // if the dragon is defeated, end the game
@@ -65,7 +66,8 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon c
                     return true; // end the game
                 }
                 monster.respawn(); // reset hp when defeated
-                monster.saveToDatabase(db, hero.getName(), chosenDungeon.getName()); // save 
+                monster.saveToDatabase(db1, hero.getName(), chosenDungeon.getName()); // save 
+                chosenDungeon.saveToDatabase(db1, hero.getName());
             }
         } else if (action == monsters.size() + 1) {
             return false; // save
@@ -76,9 +78,9 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon c
         if (hero.getHP() == 0) {
             std::cout << RED << "You have been defeated!\n" << RESET;
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-            hero.deleteFromDatabase(db); // erase hero
-            Monster::deleteMonstersForHero(db, hero.getName()); // erase monsters
-            Dungeon::deleteDungeonsForHero(db, hero.getName());
+            hero.deleteFromDatabase(db1); // erase hero
+            Monster::deleteMonstersForHero(db1, hero.getName()); // erase monsters
+            Dungeon::deleteDungeonsForHero(db1, hero.getName());
             std::this_thread::sleep_for(std::chrono::milliseconds(2000));
             return true;
         }
@@ -86,17 +88,8 @@ bool gameLoop(Hero& hero, std::vector<Monster>& monsters, sqlite3* db, Dungeon c
 }
 
 int main() {
-    sqlite3* db;
-    int rc = sqlite3_open("game.db", &db);
-    if (rc) {
-        std::cerr << "Cannot open database: " << sqlite3_errmsg(db) << std::endl;
-        return 1;
-    } else {
-        std::cout << "Opened database successfully." << std::endl;
-    }
-
     Database db1("game.db");
-    db1.createDatabaseAndTable(db);
+    db1.createDatabaseAndTable(db1.getDbPointer());
 
         while(true){
         std::cout << "Welcome to this awesome game." << std::endl;
@@ -132,13 +125,13 @@ int main() {
             std::cout << "Enter hero name: ";
             std::cin >> name;
 
-             if (db1.heroNameExists(db, name)) {
+             if (db1.heroNameExists(db1.getDbPointer(), name)) {
                 std::cout << RED << "A hero with this name already exists. Please choose a different name.\n" << std::endl << RESET;
                 std::this_thread::sleep_for(std::chrono::milliseconds(1500));
                 continue;
             }
 
-            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db);
+            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db1.getDbPointer());
             std::cout << "Choose a dungeon:\n";
             for (size_t i = 0; i < dungeons.size(); ++i) {
                 std::cout << i + 1 << ". " << dungeons[i].getName() << " (Gold: " << dungeons[i].getGold() << ")\n";
@@ -150,10 +143,10 @@ int main() {
             monsters = chosenDungeon.getMonsters();
           
             hero = Hero(name);
-            hero.saveToDatabase(db);
+            hero.saveToDatabase(db1.getDbPointer());
 
             for (Dungeon& dungeon : dungeons) {
-            dungeon.saveToDatabase(db, hero.getName()); // save monsters 
+            dungeon.saveToDatabase(db1.getDbPointer(), hero.getName()); // save monsters 
             }
 
             hero.displayInfo();
@@ -163,15 +156,15 @@ int main() {
             std::cout << "Enter hero name to load: ";
             std::cin >> name;
 
-            Hero loadedHero = Hero::loadFromDatabase(db, name);
+            Hero loadedHero = Hero::loadFromDatabase(db1.getDbPointer(), name);
             hero = loadedHero; 
 
-             if (!db1.heroNameExists(db, name)) {
+             if (!db1.heroNameExists(db1.getDbPointer(), name)) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(1000));
                 continue; 
             }
 
-            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db);
+            std::vector<Dungeon> dungeons = Dungeon::getDungeons(db1.getDbPointer());
             std::cout << "Choose a dungeon:\n";
             for (size_t i = 0; i < dungeons.size(); ++i) {
                 std::cout << i + 1 << ". " << dungeons[i].getName() << " (Gold: " << dungeons[i].getGold() << ")\n";
@@ -181,7 +174,7 @@ int main() {
 
             std::cout << "Loading dungeon with hero: " << hero.getName() << std::endl;
 
-            chosenDungeon = Dungeon::loadDungeon(db, dungeons[dungeonChoice - 1].getName(), hero.getName());
+            chosenDungeon = Dungeon::loadDungeon(db1.getDbPointer(), dungeons[dungeonChoice - 1].getName(), hero.getName());
             monsters = chosenDungeon.getMonsters();
 
             loadedHero.displayInfo();
@@ -191,12 +184,12 @@ int main() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
-        bool endGame = gameLoop(hero, monsters, db, chosenDungeon);
+        bool endGame = gameLoop(hero, monsters, db1.getDbPointer(), chosenDungeon);
 
         if (!endGame) {
-            hero.saveToDatabase(db); // save the hero
+            hero.saveToDatabase(db1.getDbPointer()); // save the hero
                  for (Monster& monster : monsters) {
-                 monster.saveToDatabase(db, hero.getName(), chosenDungeon.getName()); // save monsters
+                 monster.saveToDatabase(db1.getDbPointer(), hero.getName(), chosenDungeon.getName()); // save monsters
                  }
         } else {
             break; // end the game
@@ -204,6 +197,6 @@ int main() {
 
         }
 
-    sqlite3_close(db);
+    sqlite3_close(db1.getDbPointer());
     return 0;
 }

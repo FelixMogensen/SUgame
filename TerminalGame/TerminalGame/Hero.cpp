@@ -67,7 +67,7 @@ void Hero::gainXP(int experience) {
 
 void Hero::levelUp() {
     level++;
-    hp += 7;
+    hp += 8;
     strength += 2;
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::cout << GREEN << name << " leveled up! Level is now " << level << "." << "\n" << RESET << std::endl;

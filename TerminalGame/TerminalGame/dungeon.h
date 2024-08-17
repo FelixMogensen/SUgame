@@ -20,7 +20,7 @@ public:
     std::string getName() const;
     int getGold() const;
     std::vector<Monster>& getMonsters();
-    bool getCompleted();
+    bool getCompleted()const;
 
     static std::vector<Dungeon> getDungeons(sqlite3* db);
     static Dungeon loadDungeon(sqlite3* db, const std::string& dungeonName, const std::string& heroName);

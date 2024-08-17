@@ -19,8 +19,8 @@ std::vector<Monster>& Dungeon::getMonsters() {
 }
 
 void Dungeon::saveToDatabase(sqlite3* db, const std::string& heroName) {
-    std::string sql = "INSERT OR REPLACE INTO Dungeon (Name, Gold) VALUES ('" +
-                      name + "', " + std::to_string(gold) + ");";
+    std::string sql = "INSERT OR REPLACE INTO Dungeon (Name, Gold, Completed, HeroName) VALUES ('" +
+                      name + "', " + std::to_string(gold) + ", " + std::to_string(completed) + ", '" + heroName + "');";
 
     char* zErrMsg = nullptr;
     int rc = sqlite3_exec(db, sql.c_str(), nullptr, 0, &zErrMsg);
@@ -28,7 +28,7 @@ void Dungeon::saveToDatabase(sqlite3* db, const std::string& heroName) {
         std::cerr << "SQL error (saving Dungeon): " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
     } else {
-        std::cout << "Dungeon " << name << " saved to database with Gold " << gold << "." << std::endl;
+        std::cout << "Dungeon " << name << " saved to database with Gold " << gold << " and Completed " << completed << "." << std::endl;
     }
 
     for (Monster& monster : monsters) {
@@ -37,23 +37,27 @@ void Dungeon::saveToDatabase(sqlite3* db, const std::string& heroName) {
 }
 
 Dungeon Dungeon::loadDungeon(sqlite3* db, const std::string& dungeonName, const std::string& heroName) {
-    std::string sql = "SELECT Gold FROM Dungeon WHERE Name = '" + dungeonName + "';";
+    std::string sql = "SELECT Gold, Completed FROM Dungeon WHERE Name = '" + dungeonName + "' AND HeroName = '" + heroName + "';";
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
     int gold = 0;
+    bool completed = false;
 
     if (rc == SQLITE_OK && sqlite3_step(stmt) == SQLITE_ROW) {
         gold = sqlite3_column_int(stmt, 0);
+        completed = sqlite3_column_int(stmt, 1) == 1; 
     } else {
         std::cerr << "SQL error (loading Dungeon): " << sqlite3_errmsg(db) << std::endl;
     }
     sqlite3_finalize(stmt);
 
-    std::cout << "Loading monsters for hero: " << heroName << " in dungeon: " << dungeonName << std::endl;
     std::vector<Monster> monsters = Monster::loadAllFromDatabase(db, heroName, dungeonName);
 
-    return Dungeon(dungeonName, gold, monsters);
+    Dungeon dungeon(dungeonName, gold, monsters);
+    dungeon.completed = completed; 
+    return dungeon;
 }
+
 
 std::vector<Dungeon> Dungeon::getDungeons(sqlite3* db) {
     // Define dungeons with associated monsters
@@ -87,7 +91,6 @@ bool Dungeon::checkIfCompleted() {
     return defeatedMonsters.size() == uniqueMonsters.size();
 }
 
-
 void Dungeon::markMonsterDefeated(const std::string& monsterName) {
     defeatedMonsters.insert(monsterName);
 }
@@ -96,6 +99,6 @@ void Dungeon::markAsCompleted() {
     completed = true;
 }
 
-bool Dungeon::getCompleted(){
+bool Dungeon::getCompleted()const {
     return completed;
 }
